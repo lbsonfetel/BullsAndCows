@@ -4,12 +4,27 @@ namespace BullsAndCows
 {
     class BullsAndCowsPlayerOne
     {
-        private int[] secretNumberArray = new int[4];
+        private int numberOfDigits;
+        private int[] secretNumberArray;
         private string guessNumber;
-        int Cows;
-        int Bulls;
+        private int Cows;
+        private int Bulls;
 
-        Random random = new Random();
+        private Random random;
+
+        public BullsAndCowsPlayerOne() : this(4)
+        {
+        }
+
+        public BullsAndCowsPlayerOne(int digits)
+        {            
+            numberOfDigits = digits;
+            secretNumberArray = new int[numberOfDigits];
+            guessNumber = null;
+            Cows = 0;
+            Bulls = 0;
+            random = new Random();
+        }
 
         public void Run()
         {
@@ -23,7 +38,7 @@ namespace BullsAndCows
                 Cows = 0;                
                 Bulls = 0;
                 CountBullsAndCows();
-                if (Bulls == 4)
+                if (Bulls == numberOfDigits)
                 {
                     Console.WriteLine("********You Win!********");
                     break;
@@ -49,11 +64,10 @@ namespace BullsAndCows
         {
             bool isValidNumber = false;
             Console.WriteLine("Please enter your guess number:");
-            guessNumber = "1234";
             while (!isValidNumber)
             {
                 guessNumber = Console.ReadLine();
-                if (guessNumber.Length == 4 && IsUniqueDigits(guessNumber))
+                if (guessNumber.Length == numberOfDigits && IsUniqueDigits(guessNumber))
                     isValidNumber = true;
                 else
                     Console.WriteLine("Invalid number! Please re-enter your guess number:");

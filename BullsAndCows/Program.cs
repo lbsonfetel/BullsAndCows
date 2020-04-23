@@ -10,12 +10,13 @@ namespace BullsAndCows
     {
         static void Main(string[] args)
         {
-            BullsAndCowsPlayerOne playerOne = new BullsAndCowsPlayerOne();
-            playerOne.Run();
-
+            BullsAndCowsPlayerOne playerOne = new BullsAndCowsPlayerOne(6);
+            playerOne.Run();            
+            
             Console.ReadLine();
         }
 
-     
+
+
     }
 }
