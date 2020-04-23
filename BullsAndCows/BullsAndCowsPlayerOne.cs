@@ -4,18 +4,25 @@ namespace BullsAndCows
 {
     class BullsAndCowsPlayerOne
     {
+        private int[] secretNumberArray = new int[4];
+        private string guessNumber;
+        int Cows;
+        int Bulls;
+
+        Random random = new Random();
+
         public void Run()
         {
-            int[] secretNumberArray = GenerateSecretNumber();
-            ShowSecretNumber(secretNumberArray);
+            GenerateSecretNumber();
+            ShowSecretNumber();
 
             while (true)
             {
-                string guessNumber = GetGuessNumber();
+                GetGuessNumber();
 
-                int Cows = 0;
-                int Bulls = 0;
-                CountBullsAndCows(secretNumberArray, guessNumber, ref Cows, ref Bulls);
+                Cows = 0;                
+                Bulls = 0;
+                CountBullsAndCows();
                 if (Bulls == 4)
                 {
                     Console.WriteLine("********You Win!********");
@@ -24,25 +31,25 @@ namespace BullsAndCows
             }            
         }
 
-        private void CountBullsAndCows(int[] secretNumberArray, string guessNumber, ref int Cow, ref int Bull)
+        private void CountBullsAndCows()
         {
             for (int i = 0; i < secretNumberArray.Length; i++)
             {
                 string digit = secretNumberArray[i].ToString();
                 int index = guessNumber.IndexOf(digit);
                 if (index == i)
-                    Bull++;
+                    Bulls++;
                 else if (index >= 0)
-                    Cow++;
+                    Cows++;
             }
-            Console.WriteLine("Bulls {0}. Cows: {1}.", Bull, Cow);
+            Console.WriteLine("Bulls {0}. Cows: {1}.", Bulls, Cows);
         }
 
-        private string GetGuessNumber()
+        private void GetGuessNumber()
         {
             bool isValidNumber = false;
             Console.WriteLine("Please enter your guess number:");
-            string guessNumber = "1234";
+            guessNumber = "1234";
             while (!isValidNumber)
             {
                 guessNumber = Console.ReadLine();
@@ -51,7 +58,6 @@ namespace BullsAndCows
                 else
                     Console.WriteLine("Invalid number! Please re-enter your guess number:");
             }
-            return guessNumber;
         }
 
         private bool IsUniqueDigits(string number)
@@ -69,18 +75,15 @@ namespace BullsAndCows
             return true;
         }
 
-        private void ShowSecretNumber(int[] secretNumberArray)
+        private void ShowSecretNumber()
         {
             foreach (int i in secretNumberArray)
                 Console.Write("{0 }", i);
             Console.WriteLine();
         }
 
-        private int[] GenerateSecretNumber()
+        private void GenerateSecretNumber()
         {
-            Random random = new Random();
-            int[] secretNumberArray = new int[4];
-
             for (int i = 0; i < secretNumberArray.Length; i++)
             {
                 bool isUnique = false;
@@ -101,7 +104,6 @@ namespace BullsAndCows
                 secretNumberArray[i] = newNumber;
             }
 
-            return secretNumberArray;
         }
     }
 }
