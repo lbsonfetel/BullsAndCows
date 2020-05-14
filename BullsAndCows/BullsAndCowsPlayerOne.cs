@@ -1,14 +1,12 @@
 ﻿using System;
 
-namespace BullsAndCows
+namespace BullsAndCows 
 {
-    class BullsAndCowsPlayerOne
+    class BullsAndCowsPlayerOne : BullsAndCows
     {
         private int numberOfDigits;
         private int[] secretNumberArray;
-        private string guessNumber;
-        private int Cows;
-        private int Bulls;
+        private string guessNumber;                
 
         private Random random;
 
@@ -37,7 +35,7 @@ namespace BullsAndCows
 
                 Cows = 0;                
                 Bulls = 0;
-                CountBullsAndCows();
+                PrintBullsAndCows();
                 if (Bulls == numberOfDigits)
                 {
                     Console.WriteLine("********You Win!********");
@@ -46,17 +44,9 @@ namespace BullsAndCows
             }            
         }
 
-        private void CountBullsAndCows()
+        private void PrintBullsAndCows()
         {
-            for (int i = 0; i < secretNumberArray.Length; i++)
-            {
-                string digit = secretNumberArray[i].ToString();
-                int index = guessNumber.IndexOf(digit);
-                if (index == i)
-                    Bulls++;
-                else if (index >= 0)
-                    Cows++;
-            }
+            CountBullsAndCows(secretNumberArray, guessNumber);
             Console.WriteLine("Bulls {0}. Cows: {1}.", Bulls, Cows);
         }
 
@@ -67,27 +57,13 @@ namespace BullsAndCows
             while (!isValidNumber)
             {
                 guessNumber = Console.ReadLine();
-                if (guessNumber.Length == numberOfDigits && IsUniqueDigits(guessNumber))
+                if (guessNumber.Length == numberOfDigits && Utili.IsUniqueDigits(guessNumber))
                     isValidNumber = true;
                 else
                     Console.WriteLine("Invalid number! Please re-enter your guess number:");
             }
         }
 
-        private bool IsUniqueDigits(string number)
-        {
-            for (int i = 0; i < number.Length; i++)
-            {
-                for (int j = 0; j < i; j++)
-                {
-                    if (number[i] == number[j])
-                    {
-                        return false;
-                    }
-                }
-            }
-            return true;
-        }
 
         private void ShowSecretNumber()
         {
