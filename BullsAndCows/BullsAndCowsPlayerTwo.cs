@@ -20,16 +20,24 @@ namespace BullsAndCows
 
         public void Run()
         {
-            while(true)
+            try
             {
-                ShowGuessNumber();
-                GetAnswerFromUser();
-                if (Bulls == numberOfDigits || allPossibleNumber.Count < 1)
+                while (true)
                 {
-                    Console.WriteLine("Finished!");
-                    break;
+                    ShowGuessNumber();
+                    GetAnswerFromUser();
+                    if (Bulls == numberOfDigits)
+                    {
+                        Console.WriteLine("Finished!");
+                        break;
+                    }
+                    ReducePossibelNumbers();
                 }
-                ReducePossibelNumbers();
+            }
+            catch (ArgumentOutOfRangeException e)
+            {
+                if (allPossibleNumber.Count == 0)
+                    Console.WriteLine("Wrong Cow or Bull values.");
             }
         }
 
@@ -37,7 +45,7 @@ namespace BullsAndCows
         {
             for (int i = 0; i < allPossibleNumber.Count;)
             {
-                BullsAndCows response = CountBullsAndCows(allPossibleNumber[i], currentGuessNumber);
+                BullsAndCows response = GetBullsCowsResponse(allPossibleNumber[i], currentGuessNumber);
                 if (!IsSame(response))
                     allPossibleNumber.RemoveAt(i);
                 else
@@ -53,12 +61,24 @@ namespace BullsAndCows
 
         private void GetAnswerFromUser()
         {
-            Console.WriteLine("Results (Bulls,Cows):");
-            string answer = Console.ReadLine();
-            string Cows = answer[2].ToString();
-            base.Cows = Convert.ToInt32(Cows);
-            string Bulls = answer[0].ToString();
-            base.Bulls = Convert.ToInt32(Bulls);
+            while (true)
+            {
+                try
+                {
+                    Console.WriteLine("Results (Bulls,Cows):");
+                    string answer = Console.ReadLine();
+                    string Cows = answer[2].ToString();
+                    base.Cows = Convert.ToInt32(Cows);
+                    string Bulls = answer[0].ToString();
+                    base.Bulls = Convert.ToInt32(Bulls);
+
+                    break;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Invalid Input! Please enter again:");
+                }
+            }
         }
 
         private void CreateAllPossibleNumber()

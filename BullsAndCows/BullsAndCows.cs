@@ -14,10 +14,12 @@ namespace BullsAndCows
         public void CountBullsAndCows(int[] secretNumberArray, string guessNumber)
         {
             string number = ConvertArrayToString(secretNumberArray);
-            CountBullsAndCows(number, guessNumber);
+            var response = GetBullsCowsResponse(number, guessNumber);
+            Cows = response.Cows;
+            Bulls = response.Bulls;
         }
 
-        public static BullsAndCows CountBullsAndCows(string secretNumberArray, string guessNumber)
+        public static BullsAndCows GetBullsCowsResponse(string secretNumberArray, string guessNumber)
         {
             BullsAndCows result = new BullsAndCows();
             for (int i = 0; i < secretNumberArray.Length; i++)

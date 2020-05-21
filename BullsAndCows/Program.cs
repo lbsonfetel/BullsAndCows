@@ -10,8 +10,8 @@ namespace BullsAndCows
     {
         static void Main(string[] args)
         {
-            //BullsAndCowsPlayerOne playerOne = new BullsAndCowsPlayerOne(6);            
-            //playerOne.Run();            
+            //BullsAndCowsPlayerOne playerOne = new BullsAndCowsPlayerOne(4);
+            //playerOne.Run();
 
             BullsAndCowsPlayerTwo playerTwo = new BullsAndCowsPlayerTwo(4);
             playerTwo.Run();

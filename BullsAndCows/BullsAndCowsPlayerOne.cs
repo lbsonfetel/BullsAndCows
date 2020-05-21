@@ -64,7 +64,6 @@ namespace BullsAndCows
             }
         }
 
-
         private void ShowSecretNumber()
         {
             foreach (int i in secretNumberArray)
