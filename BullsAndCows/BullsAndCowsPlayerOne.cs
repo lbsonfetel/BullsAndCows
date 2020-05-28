@@ -1,9 +1,16 @@
 ﻿using System;
+using System.Text;
 
 namespace BullsAndCows 
 {
     class BullsAndCowsPlayerOne : BullsAndCows
     {
+        public delegate void NotifyHandler(string message);
+        public event NotifyHandler NotifyEvent;
+
+        public delegate string UserInputHandler();
+        public event UserInputHandler UserInputEvent;
+
         private int numberOfDigits;
         private int[] secretNumberArray;
         private string guessNumber;                
@@ -38,7 +45,7 @@ namespace BullsAndCows
                 PrintBullsAndCows();
                 if (Bulls == numberOfDigits)
                 {
-                    Console.WriteLine("********You Win!********");
+                    NotifyEvent("********You Win!********");
                     break;
                 }
             }            
@@ -47,28 +54,32 @@ namespace BullsAndCows
         private void PrintBullsAndCows()
         {
             CountBullsAndCows(secretNumberArray, guessNumber);
-            Console.WriteLine("Bulls {0}. Cows: {1}.", Bulls, Cows);
+            NotifyEvent(String.Format("Bulls {0}. Cows: {1}.", Bulls, Cows));
         }
 
         private void GetGuessNumber()
         {
             bool isValidNumber = false;
-            Console.WriteLine("Please enter your guess number:");
+            NotifyEvent("Please enter your guess number:");
             while (!isValidNumber)
             {
-                guessNumber = Console.ReadLine();
+                guessNumber = UserInputEvent();
                 if (guessNumber.Length == numberOfDigits && Utili.IsUniqueDigits(guessNumber))
                     isValidNumber = true;
                 else
-                    Console.WriteLine("Invalid number! Please re-enter your guess number:");
+                    NotifyEvent("Invalid number! Please re-enter your guess number:");
             }
         }
 
         private void ShowSecretNumber()
         {
+            StringBuilder s = new StringBuilder();
             foreach (int i in secretNumberArray)
-                Console.Write("{0 }", i);
-            Console.WriteLine();
+            {
+                s.Append(i);
+                s.Append(" ");
+            }
+            NotifyEvent(s.ToString());
         }
 
         private void GenerateSecretNumber()

@@ -12,6 +12,12 @@ namespace BullsAndCows
         private List<string> allPossibleNumber;
         private string currentGuessNumber;
 
+        public delegate void NotifyHandler(string message);
+        public event NotifyHandler NotifyEvent;
+
+        public delegate string UserInputHandler();
+        public event UserInputHandler UserInputEvent;
+
         public BullsAndCowsPlayerTwo(int ndigits)
         {
             numberOfDigits = ndigits;
@@ -28,7 +34,7 @@ namespace BullsAndCows
                     GetAnswerFromUser();
                     if (Bulls == numberOfDigits)
                     {
-                        Console.WriteLine("Finished!");
+                        NotifyEvent("Finished!");
                         break;
                     }
                     ReducePossibelNumbers();
@@ -37,7 +43,7 @@ namespace BullsAndCows
             catch (ArgumentOutOfRangeException e)
             {
                 if (allPossibleNumber.Count == 0)
-                    Console.WriteLine("Wrong Cow or Bull values.");
+                    NotifyEvent("Wrong Cow or Bull values.");
             }
         }
 
@@ -56,7 +62,8 @@ namespace BullsAndCows
         private void ShowGuessNumber()
         {
             currentGuessNumber = allPossibleNumber[0];
-            Console.WriteLine("Guess: {0}", currentGuessNumber);
+            string message = String.Format("Guess: {0}", currentGuessNumber);
+            NotifyEvent(message);
         }
 
         private void GetAnswerFromUser()
@@ -65,8 +72,8 @@ namespace BullsAndCows
             {
                 try
                 {
-                    Console.WriteLine("Results (Bulls,Cows):");
-                    string answer = Console.ReadLine();
+                    NotifyEvent("Results (Bulls,Cows):");
+                    string answer = UserInputEvent();
                     string Cows = answer[2].ToString();
                     base.Cows = Convert.ToInt32(Cows);
                     string Bulls = answer[0].ToString();
@@ -76,7 +83,7 @@ namespace BullsAndCows
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine("Invalid Input! Please enter again:");
+                    NotifyEvent("Invalid Input! Please enter again:");
                 }
             }
         }

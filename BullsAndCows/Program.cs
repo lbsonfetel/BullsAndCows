@@ -10,16 +10,24 @@ namespace BullsAndCows
     {
         static void Main(string[] args)
         {
-            //BullsAndCowsPlayerOne playerOne = new BullsAndCowsPlayerOne(4);
-            //playerOne.Run();
+            BullsAndCowsPlayerOne playerOne = new BullsAndCowsPlayerOne(4);
+            playerOne.NotifyEvent += PrintPlayerState;
+            playerOne.UserInputEvent += Console.ReadLine;
+            playerOne.Run();
 
-            BullsAndCowsPlayerTwo playerTwo = new BullsAndCowsPlayerTwo(4);
-            playerTwo.Run();
+
+            //BullsAndCowsPlayerTwo playerTwo = new BullsAndCowsPlayerTwo(4);
+            //playerTwo.NotifyEvent += PrintPlayerState;
+            //playerTwo.UserInputEvent += Console.ReadLine;
+            //playerTwo.Run();
 
             Console.ReadLine();
         }
 
-
+        static void PrintPlayerState(string message)
+        {
+            Console.WriteLine(message);
+        }        
 
     }
 }
